@@ -2,7 +2,7 @@ export const INFO = {
   phone: "",
   email: "",
   address: "",
-  companyName: "",
+  companyName: "TSM",
 };
 
 export const API_URL = {
