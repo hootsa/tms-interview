@@ -66,8 +66,10 @@ const ContactPage = () => {
 
   return (
     <section id="contact">
-      contact
-      <form></form>
+      <div className="container">
+        contact
+        <form></form>
+      </div>
     </section>
   );
 };
