@@ -1,5 +1,5 @@
 import Layout from "@/components/layout/Layout";
 
 export default function Home() {
-  return <Layout>index</Layout>;
+  return <Layout>404</Layout>;
 }

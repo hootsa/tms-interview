@@ -8,7 +8,20 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: "#",
+        },
+        secondary: {
+          DEFAULT: "#",
+        },
+      },
+
+      fontFamily: {
+        name: ["Roboto", "Arial", "sans-serif"],
+      },
+    },
 
     screens: {
       xs: "360px",
