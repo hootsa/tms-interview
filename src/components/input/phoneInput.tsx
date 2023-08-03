@@ -1,10 +1,14 @@
-import React, { ChangeEvent } from "react";
-import Input from ".";
+import React, { memo, forwardRef, Ref } from "react";
+import Input from "./";
 
-type PhoneInputProps = InputProps & {
+interface PhoneInputProps {
+  name: string;
   value: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-};
+  label: string;
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+}
 
 const formatPhoneNumber = (inputValue: string): string => {
   const digitsOnly = inputValue?.replace(/\D/g, "");
@@ -27,36 +31,38 @@ const formatPhoneNumber = (inputValue: string): string => {
   return formattedPhoneNumber;
 };
 
-const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(
-  ({ name, id, error, value, onChange, ...rest }, ref) => {
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-      const formattedValue = formatPhoneNumber(value);
+const PhoneInput = forwardRef<Ref<any>, PhoneInputProps>((props, ref) => {
+  const { name = "", value = "", onChange, label = "", ...rest } = props;
 
-      if (onChange) {
-        onChange({
-          target: {
-            name,
-            value: formattedValue.replace(/\D/g, "").slice(0, 10), // Save only the first 10 digits
-          },
-        });
-      }
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const formattedValue = formatPhoneNumber(value);
 
-    return (
-      <Input
-        type="text"
-        id={id}
-        name={name}
-        label="Phone Number"
-        value={formatPhoneNumber(value)}
-        onChange={handleChange}
-        error={error}
-        ref={ref}
-        {...rest}
-      />
-    );
-  }
-);
+    if (onChange) {
+      onChange({
+        target: {
+          name,
+          value: formattedValue.replace(/\D/g, "").slice(0, 10),
+        },
+      } as any);
+    }
+  };
 
-export default PhoneInput;
+  const inputProps = {
+    ...rest,
+    onChange: handleChange as (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => void,
+  };
+
+  return (
+    <Input
+      ref={ref}
+      name={name}
+      value={formatPhoneNumber(value)}
+      {...inputProps}
+    />
+  );
+});
+
+export default memo(PhoneInput);
