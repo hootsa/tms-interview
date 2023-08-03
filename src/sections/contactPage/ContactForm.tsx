@@ -1,15 +1,16 @@
-import { API_URL } from "@/constants";
+import React, { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { useState } from "react";
+import { API_URL } from "@/constants";
 
 type FormData = {
   name: string;
   email: string;
-  phoneNumber: string;
+  subject: string;
   message: string;
+  phoneNumber: string;
 };
 
 const schema = yup.object().shape({
@@ -22,20 +23,23 @@ const schema = yup.object().shape({
       "phone-number-length",
       "Phone number should be 10 digits",
       (value) => {
+        console.log(value);
         return value?.replace(/\D/g, "").length === 10;
       }
     ),
-  message: yup.string(),
+  subject: yup.string().required("Subject is required"),
+  message: yup.string().required("Message is required"),
 });
 
-const ContactForm = () => {
+const ContactInner = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccess, SetShowSuccess] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -44,17 +48,18 @@ const ContactForm = () => {
     setIsLoading(true);
 
     try {
-      const { name, email, message, phoneNumber } = data;
+      const { name, email, subject, message, phoneNumber } = data;
 
       const formData = new FormData();
+      formData.set("your-subject", subject);
       formData.set("your-name", name);
-      formData.set("your-subject", name);
       formData.set("your-email", email);
       formData.set("phoneNumber", phoneNumber);
       formData.append("your-message", message);
       const response = await axios.post(API_URL.contactForm, formData);
 
       if (response.status === 200) {
+        showMessage();
         reset();
       }
     } catch (error) {
@@ -64,13 +69,15 @@ const ContactForm = () => {
     }
   };
 
-  return (
-    <section id="contact-form">
-      <div className="container">
-        <form></form>
-      </div>
-    </section>
-  );
+  const showMessage = () => {
+    SetShowSuccess(true);
+
+    setTimeout(() => {
+      SetShowSuccess(false);
+    }, 5000);
+  };
+
+  return <section id="contact-form"></section>;
 };
 
-export default ContactForm;
+export default ContactInner;

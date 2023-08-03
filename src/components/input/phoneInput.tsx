@@ -1,13 +1,20 @@
 import React, { memo, forwardRef, Ref } from "react";
 import Input from "./";
+import { FieldError } from "react-hook-form";
 
 interface PhoneInputProps {
-  name: string;
-  value: string;
-  label: string;
+  className?: string;
+  id?: string;
+  label?: string;
+  textarea?: boolean;
+  error?: FieldError;
   onChange?: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  required?: boolean;
+  name?: string;
+  value?: string;
+  type: any;
 }
 
 const formatPhoneNumber = (inputValue: string): string => {
@@ -32,7 +39,14 @@ const formatPhoneNumber = (inputValue: string): string => {
 };
 
 const PhoneInput = forwardRef<Ref<any>, PhoneInputProps>((props, ref) => {
-  const { name = "", value = "", onChange, label = "", ...rest } = props;
+  const {
+    name = "",
+    value = "",
+    onChange,
+    type = "tel",
+    label = "",
+    ...rest
+  } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
