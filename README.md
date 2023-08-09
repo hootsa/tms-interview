@@ -42,7 +42,7 @@ Check validation for the name that its not empty and that the email is a valid e
 
 ## Tasks
 
-1. **Star Wars Film Cards:** Modify the GraphQL query below to fetch the necessary content from the headless WordPress.
+1. **Star Wars Film Cards:** Modify the GraphQL query below to fetch the necessary content from the API.
 
    ```graphql
    # Example GraphQL Query
