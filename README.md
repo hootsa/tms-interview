@@ -57,5 +57,6 @@ Check validation for the name that its not empty and that the email is a valid e
      }
    }
     ```
+2. Please use tailwind css for the styling of the page. You can use any other library you want for the form validation. The tailwind docs can be found here [tailwindcss](https://tailwindcss.com/docs/installation)
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
